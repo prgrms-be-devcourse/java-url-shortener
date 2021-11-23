@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Short URL</title>
+</head>
+<body>
+
+
+<h1>URL SHORTENER</h1>
+
+<form action="" method="post">
+  <div>
+    <label>축소하고 싶은 URL을 입력하세요</label>
+    <input type="text" id="url" name="url">
+    <input type="submit" value="축소하기">
+  </div>
+</form>
+
+<div th:if="${urlHolder} != null">
+  <span th:text="${urlHolder.encoded}"></span>
+
+  <button
+        th:onclick="|location.href='@{/url/{id}/edit(id=${urlHolder.id})}'|">
+    수정하기</button>
+</div>
+
+</body>
+</html>
