@@ -17,8 +17,13 @@
   </div>
 </form>
 
-<div>
-  <span th:text="${encodedUrl}"></span>
+<div th:if="${urlHolder} != null">
+  <span th:text="${urlHolder.encoded}"></span>
+
+  <button
+        th:onclick="|location.href='@{/url/{id}/edit(id=${urlHolder.id})}'|">
+    수정하기</button>
 </div>
+
 </body>
 </html>

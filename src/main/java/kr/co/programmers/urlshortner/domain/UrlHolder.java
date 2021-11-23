@@ -13,7 +13,6 @@ public class UrlHolder {
     private Long id;
 
     private String origin;
-
     private String encoded;
     private static final String HOST = "http://localhost:8080/";
 
@@ -24,12 +23,12 @@ public class UrlHolder {
         this.origin = origin;
     }
 
-    public String getEncodedUrl() {
-        return encoded;
-    }
-
     public void setEncodedUrl(String encodedValue) {
         this.encoded = HOST + encodedValue;
+    }
+
+    public void changeOriginUrl(String origin) {
+        this.origin = origin;
     }
 
     public Long getId() {
@@ -38,5 +37,9 @@ public class UrlHolder {
 
     public String getOrigin() {
         return origin;
+    }
+
+    public String getEncoded() {
+        return encoded;
     }
 }
