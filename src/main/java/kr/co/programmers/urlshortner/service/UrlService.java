@@ -2,31 +2,40 @@ package kr.co.programmers.urlshortner.service;
 
 import kr.co.programmers.urlshortner.domain.Url;
 import kr.co.programmers.urlshortner.domain.dto.CreateRequestUrl;
-import kr.co.programmers.urlshortner.domain.dto.CreateResponseUrl;
 import kr.co.programmers.urlshortner.repository.UrlRepository;
 import kr.co.programmers.urlshortner.util.Base62;
+import kr.co.programmers.urlshortner.util.UrlFormatter;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UrlService {
 
-    private UrlRepository urlRepository;
-    private Base62 base62;
+    private final UrlRepository urlRepository;
+    private final Base62 base62;
+    private final UrlFormatter urlFormatter;
 
-    public CreateResponseUrl createShortUrl(CreateRequestUrl url) {
+    public String createShortUrl(CreateRequestUrl url) {
         Url createdUrl = Url.builder()
                 .originalUrl(url.getOriginalUrl())
                 .build();
-
         urlRepository.save(createdUrl);
-        createdUrl.setShortUrl(base62.encoding(createdUrl.getId()));
 
-        CreateResponseUrl shortUrl = new CreateResponseUrl(createdUrl.getShortUrl());
+        String  shortUrl = urlFormatter.format(base62.encoding(createdUrl.getId()));
+
         return shortUrl;
+    }
+
+    public String findOriginalUrl(String shortUrl){
+        int id = base62.decoding(shortUrl);
+
+        Url url = urlRepository.findById(id).get();
+
+        return url.getOriginalUrl();
     }
 
 }
