@@ -35,4 +35,15 @@ public class UrlService {
         return savedUrl.getShortenUrl();
     }
 
+    @Transactional
+    public String findOriginalUrl(String shortenUrl) {
+        long urlId = Base62.decodeToLong(shortenUrl);
+        Url foundUrl = urlRepository.findById(urlId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid URL!!!"));
+
+        foundUrl.plusViewCount();
+
+        return foundUrl.getOriginUrl();
+    }
+
 }
