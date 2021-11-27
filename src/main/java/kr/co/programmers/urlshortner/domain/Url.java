@@ -35,6 +35,19 @@ public class Url {
         this.originUrl = originUrl;
         this.shortenUrl = shortenUrl;
         this.viewCount = viewCount;
+
+        if (viewCount == null) {
+            this.viewCount = 0L;
+        }
+    }
+
+    public void updateShortenUrl(String encodedUrl) {
+        this.shortenUrl = encodedUrl;
+        plusViewCount();
+    }
+
+    public void plusViewCount() {
+        this.viewCount++;
     }
 
 }
